@@ -7,7 +7,7 @@ const validation_controller = {
     async validation(req, res, next) {
          await db.poolconnect
 
-        console.log("validation controller req body",req.body);
+        // console.log("validation controller req body",req.body);
         try {
             
             const request = db.pool.request(); 

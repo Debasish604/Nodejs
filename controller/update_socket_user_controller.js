@@ -7,7 +7,7 @@ const update_socket_user_controller = {
     async update_socket_user(req, res, next) {
          await db.poolconnect
 
-        // console.log("req is",req.body);
+       // console.log("req is socket update",req.body);
         try {
             
             const request = db.pool.request(); 
@@ -26,7 +26,7 @@ const update_socket_user_controller = {
             res.json(recordsets.output);
         })
         .catch(function(err) {
-                console.log(err);
+                //console.log(err);
                 return next(err)
               });
      }
@@ -35,7 +35,7 @@ const update_socket_user_controller = {
      }
     
         } catch (err) {
-            console.error('SQL error', err);
+            //console.error('SQL error', err);
             return next(err)
         }
     }

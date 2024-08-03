@@ -14,11 +14,13 @@ const delete_user_id_controller = require('../controller/delete_user_id_controll
 const get_my_details_controller = require('../controller/get_my_details_controller')
 const delete_adress_book_controller = require('../controller/delete_adress_book_controller')
 const alter_user_status_controller = require('../controller/alter_user_status_controller')
+const UPDATE_USER_DETAILS_controller =require('../controller/UPDATE_USER_DETAILS_controller')
+const CHANGE_PASSWORD_controller=require('../controller/CHANGE_PASSWORD_controller')
+const get_about_us_controller=require('../controller/get_about_us_controller');
+const forgot_password_controller=require('../controller/forgot_password_controller')
+const JwtVerify = require('../middleware/JwtTotenVerify');
 // const insert_connection_Details_controller = require('../controller/insert_connection_Details_controller')
 //router.post('/register',register_controller.register)
-
-
-
 //router.route('/login').post(login);
 router.route('/login').post(login_controller.login);
 router.route('/register').post(register_controller.register);
@@ -34,5 +36,16 @@ router.route('/delete_user_id').post(delete_user_id_controller.delete_user_id)
 router.route('/get_my_details').post(get_my_details_controller.get_my_details)
 router.route('/delete_address_book').post(delete_adress_book_controller.delete_address_book)
 router.route('/alter_user_status').get(alter_user_status_controller.alter_user_status)
+router.route('/updateuserdetails').post(UPDATE_USER_DETAILS_controller.UPDATE_USER_DETAILS);
+router.route('/changepassword').post(CHANGE_PASSWORD_controller.CHANGE_PASSWORD);
+router.route('/getaboutus').get(get_about_us_controller.get_about_us);
+// Route to send OTP
+router.post('/send-otp', forgot_password_controller.sendOtp);
+
+// Route to verify OTP
+router.post('/verify-otp', forgot_password_controller.verifyOtp);
+
+// Route to reset password
+router.post('/reset-password', forgot_password_controller.resetPassword);
 // router.route('/insert_connection_Details').post(insert_connection_Details_controller.insert_connection_Details)
 module.exports=router

@@ -7,7 +7,7 @@ const add_remove_action_controller = {
     async add_remove_action(req, res, next) {
          await db.poolconnect
 
-        console.log(req.body);
+        // console.log(req.body);
         try {
             
             const request = db.pool.request(); 

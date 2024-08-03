@@ -7,7 +7,7 @@ const get_address_book_controller = {
     async get_address_book(req, res, next) {
          await db.poolconnect
 
-        console.log(req.body);
+        // console.log(req.body);
         try {
             
             const request = db.pool.request(); 
@@ -26,7 +26,7 @@ const get_address_book_controller = {
         // .input('action', db.mssql.VarChar(100),action)
         // .output('get',db.mssql.VarChar(20))
         .execute('[dbo].[get_address_book]').then(function(recordsets, err, returnValue, affected) {
-            console.log(recordsets);
+            // console.log(recordsets);
             res.json(recordsets.recordset);
         })
         .catch(function(err) {

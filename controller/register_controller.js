@@ -5,60 +5,59 @@ const { MAX } = require('mssql');
 
 const register_controller = {
     async register(req, res, next) {
-        await db.poolconnect
+        await db.poolconnect;
 
-        console.log(req.body);
+        // console.log(req.body);
         try {
-
             const request = db.pool.request();
-            var FIRST_NAME = req.body.FIRST_NAME;
-            var LAST_NAME = req.body.LAST_NAME;
-            var USER_NAME = req.body.USER_NAME;
-            var PASSWORD = req.body.PASSWORD;
-            var SYSTEM_ID = req.body.SYSTEM_ID;
-            if (FIRST_NAME != null && LAST_NAME != null && USER_NAME != null && PASSWORD != null && SYSTEM_ID != null) {
+            const { FIRST_NAME, LAST_NAME, USER_NAME, PASSWORD, Nickname } = req.body;
 
-                request.input('FIRST_NAME', db.mssql.NVarChar(255), FIRST_NAME)
+            if (FIRST_NAME && LAST_NAME && USER_NAME && PASSWORD && Nickname) {
+                request
+                    .input('FIRST_NAME', db.mssql.NVarChar(255), FIRST_NAME)
                     .input('LAST_NAME', db.mssql.NVarChar(255), LAST_NAME)
                     .input('USER_NAME', db.mssql.NVarChar(255), USER_NAME)
                     .input('PASSWORD', db.mssql.NVarChar(1000), PASSWORD)
-                    .input('SYSTEM_ID', db.mssql.NVarChar(1000), SYSTEM_ID)
+                    .input('Nickname', db.mssql.NVarChar(1000), Nickname)
                     .output('RESPONSE', db.mssql.NVarChar(100))
-                    .execute('[dbo].[REMOTE_ACCESS_REGISTER]').then(function (recordsets, err, returnValue, affected) {
-                        if (recordsets.output.RESPONSE != 'EXISTS') {
-                            // console.log("output is First",recordsets.input)
-                            send_email(USER_NAME, recordsets.output.RESPONSE, (callback) => {
-                                console.log("CallBack is:", callback)
-                                if (callback == 'success') {
-                                    let data = [{ 'msg': "User register successfully", 'success': true }]
+                    .execute('[dbo].[REMOTE_ACCESS_REGISTER]')
+                    .then(function (result) {
+                        const responseMsg = result.output.RESPONSE;
+                        
+                        if (responseMsg === 'USERNAME_EXISTS') {
+                            let data = [{ 'msg': "The username is already taken.", 'success': false }];
+                            res.json(data);
+                        } else if (responseMsg === 'NICKNAME_EXISTS') {
+                            let data = [{ 'msg': "The nickname is already used.", 'success': false }];
+                            res.json(data);
+                        } else if (responseMsg === 'EXISTS') {
+                            // This will handle cases where the response indicates general failure
+                            let data = [{ 'msg': "Registration failed due to an unknown reason.", 'success': false }];
+                            res.json(data);
+                        } else {
+                            // Successful registration case
+                            send_email(USER_NAME, responseMsg, (callback) => {
+                                // console.log("CallBack is:", callback);
+                                if (callback === 'success') {
+                                    let data = [{ 'msg': "User registered successfully.", 'success': true }];
+                                    res.json(data);
+                                } else {
+                                    let data = [{ 'msg': "Failed to send confirmation email.", 'success': false }];
                                     res.json(data);
                                 }
-                            })
+                            });
                         }
-                        else {
-                            console.log(" same email dile log a dhuklo");
-                            let data = [{ 'msg': recordsets.output, 'success': 'FAIELD' }]
-                            res.json(data);
-                            console.log('ai dekho data',data);
-                        }
-
                     })
                     .catch(function (err) {
-                        //console.log(err);
-                        return next(err)
+                        return next(err);
                     });
+            } else {
+                res.json([{ 'msg': "Request body is incomplete. Please provide all required fields.", 'success': false }]);
             }
-            else {
-                res.json("Body is Empty,Please send a body")
-            }
-
         } catch (err) {
-            //console.error('SQL error', err);
-            return next(err)
+            return next(err);
         }
-    },
-
-
+    }
 }
 
 
@@ -89,7 +88,7 @@ async function send_email(email_id, user_id, cb) {
 
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-            console.log(error)
+            // console.log(error)
             cb('error');
         } else {
             cb('success');

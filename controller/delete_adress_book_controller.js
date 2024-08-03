@@ -7,7 +7,7 @@ const delete_adress_book_controller = {
     async delete_address_book(req, res, next) {
          await db.poolconnect
 
-        console.log("test"+req.body);
+        // console.log("test"+req.body);
         try {
             
             const request = db.pool.request(); 

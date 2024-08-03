@@ -7,7 +7,7 @@ const user_access_list_controller = {
     async user_access_list(req, res, next) {
          await db.poolconnect
 
-        console.log(req.body);
+        // console.log(req.body);
         try {
             
             const request = db.pool.request(); 

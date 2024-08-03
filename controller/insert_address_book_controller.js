@@ -7,7 +7,7 @@ const insert_address_book_controller = {
     async insert_address_book(req, res, next) {
          await db.poolconnect
 
-        console.log(req.body);
+        // console.log(req.body);
         try {
             
             const request = db.pool.request(); 

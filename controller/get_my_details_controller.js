@@ -7,7 +7,7 @@ const get_my_details_controller = {
     async get_my_details(req, res, next) {
          await db.poolconnect
 
-        console.log(req.body);
+        // console.log(req.body);
         try {
             
             const request = db.pool.request(); 

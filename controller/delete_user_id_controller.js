@@ -7,7 +7,7 @@ const delete_user_id_controller = {
     async delete_user_id(req, res, next) {
          await db.poolconnect
 
-        console.log(req.body);
+        // console.log(req.body);
         try {
             
             const request = db.pool.request(); 

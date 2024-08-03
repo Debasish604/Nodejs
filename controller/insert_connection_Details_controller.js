@@ -7,7 +7,7 @@ const insert_connection_Details_controller = {
     async insert_connection_Details(req, res, next) {
          await db.poolconnect
 
-        console.log(req.body);
+        // console.log(req.body);
         try {
             
             const request = db.pool.request(); 
@@ -23,7 +23,7 @@ const insert_connection_Details_controller = {
             var client_device_details=req.body.client_device_details
             var application_version= req.body.application_version
 
-            console.log(req.body)
+            // console.log(req.body)
            
 
           
