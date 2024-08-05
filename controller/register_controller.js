@@ -76,7 +76,7 @@ async function send_email(email_id, user_id, cb) {
         },
     });
     // let send_html = '<a href="http://122.163.121.176:3008/api/user/alter_user_status?user_id=' + user_id + '" style="text-decoration: none;"><button style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Verify</button></a>';
-    let send_html = '<a href="http://122.163.121.176:3008/api/user/alter_user_status?user_id=' + user_id + '" style=justify-content: center;"><button style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Verify</button></a>';
+    let send_html = '<a href="http://157.173.221.226:3008/api/user/alter_user_status?user_id=' + user_id + '" style=justify-content: center;"><button style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Verify</button></a>';
 
     let mailOptions = {
         from: 'support@aivistatech.com',
